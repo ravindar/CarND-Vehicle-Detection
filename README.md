@@ -442,7 +442,7 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-The approach is I took was to do
+The approach is I took was to do<br>
 1. load vehicle and non-vehicle data <br>
 2. extract features based on spatial binning, HOG and color histograming <br>
 3. getting training and test data and running a LinearSVC <br>
