@@ -443,14 +443,14 @@ Here's an example result showing the heatmap from a series of frames of video, t
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 The approach is I took was to do
-1. load vehicle and non-vehicle data
-2. extract features based on spatial binning, HOG and color histograming
-3. getting training and test data and running a LinearSVC
-4. Writing code to run sliding windows(varying sizes and on only half the image - smaller window is y_start_stop=[360, 500] and larger window is  y_start_stop=[360, 700]) and extract features.
-5. I run the classifiers on these windows from step 4. For all the images where there is vehicle I mark it as a hot window
-6. I run heat mapping to essentially verify vehicles where overlapping windows have positive vehicles
-7. I apply threshold to remove false positives
-8. Run the above pipeline on video
+1. load vehicle and non-vehicle data <br>
+2. extract features based on spatial binning, HOG and color histograming <br>
+3. getting training and test data and running a LinearSVC <br>
+4. Writing code to run sliding windows(varying sizes and on only half the image - smaller window is y_start_stop=[360, 500] and larger window is  y_start_stop=[360, 700]) and extract features. <br>
+5. I run the classifiers on these windows from step 4. For all the images where there is vehicle I mark it as a hot window <br>
+6. I run heat mapping to essentially verify vehicles where overlapping windows have positive vehicles <br>
+7. I apply threshold to remove false positives <br>
+8. Run the above pipeline on video <br>
 
 #### Issues
 The biggest issue was finding the HOG parameters. It seems like I had to run many options to figure out what worked.
