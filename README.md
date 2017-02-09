@@ -31,7 +31,7 @@ The goals / steps of this project are the following:
 
 ---
 ###Writeup / README
-
+#### Helper moethods like slide_window, extract_features, color_hist etc. are in helper_functions.py and P5.ipynb contains the final solution with the pipeline.
 ###Histogram of Oriented Gradients (HOG)
 
 ####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
@@ -209,7 +209,7 @@ I trained a linear SVM using. You can see the code in Section `Running SVC` in P
 Here is what I did to run the SVC on a sample test_image
 
 1. Read an image
-2. get sliding_windows of varing sizes (96, 96) with a 85% overlap and (128, 128) with a 75% overlap
+2. get sliding_windows of varing sizes (96, 96) with a 85% overlap and (128, 128) with a 75% overlap.
 3. search for vehicles in the sliding windows from step 2 above using LinearSVC trained above
     3.1. I used these values color_space -> 'YCrCb', HOG orientations -> 9, HOG pixels per cell -> 2, HOG Channel -> 'ALL'
     3.2. Number of histogram bins -> 32  and Spatial binning of (32, 32)
@@ -222,7 +222,7 @@ Here is what I did to run the SVC on a sample test_image
 
 ####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-As described above I used sliding_windows of varing sizes `(96, 96)` with a `85%` overlap and `(128, 128)` with a `75%` overlap. The code that generates the sliding windows is below
+As described above I used sliding_windows of varing sizes `(96, 96)` with a `85%` overlap and `(128, 128)` with a `75%` overlap. The sliding window is only run on half the image. The larger sliding window is run from y_start_stop=[360, 700] and the smaller sliding window is run from y_start_stop=[360, 500]. The smaller window is only run  y_start_stop=[360, 500] coz it is used to detect cars further away and appear smaller. The code that generates the sliding windows is below.
 ```
 # Define a function that takes an image,
 # start and stop positions in both x and y,
@@ -442,5 +442,20 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.
+The approach is I took was to do
+1. load vehicle and non-vehicle data
+2. extract features based on spatial binning, HOG and color histograming
+3. getting training and test data and running a LinearSVC
+4. Writing code to run sliding windows(varying sizes and on only half the image - smaller window is y_start_stop=[360, 500] and larger window is  y_start_stop=[360, 700]) and extract features.
+5. I run the classifiers on these windows from step 4. For all the images where there is vehicle I mark it as a hot window
+6. I run heat mapping to essentially verify vehicles where overlapping windows have positive vehicles
+7. I apply threshold to remove false positives
+8. Run the above pipeline on video
+
+#### Issues
+The biggest issue was finding the HOG parameters. It seems like I had to run many options to figure out what worked.
+There was a similar issue with finding the color space that worked. I tried RGB and had a 97% test accuracy, which I felt was good enough. But when I used that classifier I found that the pipeline had a lot of false positives and the vehicle detection was not good.
+The color space that worked was YCrCb. But that was after I tried a bunch of color spaces.
+
+The pipeline was built completely using HOG, color histogram, spatial binning etc. I felt this is not a very flexible pipeline and has a heavy dependence on image features. Also the classification is based on a small data set provided by the class (`vehicle` and `non-vehicle` folder). I feel I could use a larger pool of images to help with classification. Also the pipeline could be built using a convelutional network which would be a lot more flexible during classification.
 
